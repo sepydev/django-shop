@@ -1,0 +1,14 @@
+---
+version: '3.9'
+services:
+  app:
+    build:
+      target: dev
+    volumes:
+      - .:/app:cached
+    environment:
+      DEBUG: "True"
+
+  db:
+    ports:
+      - "5432:5432"

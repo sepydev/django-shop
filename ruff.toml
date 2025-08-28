@@ -1,0 +1,65 @@
+line-length = 120
+
+[lint]
+# Extended to include Django's preferred settings
+select = [
+  # flake8-bugbear
+  "B",
+  # flake8-comprehensions
+  "C4",
+  # Django
+  "DJ",
+  # flake8-datetimez
+  "DTZ",
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # FastAPI
+  "FAST",
+  # isort
+  "I",
+  # pygrep-hooks
+  "PGH",
+  # flake8-pie
+  "PIE",
+  # flake8-pytest-style
+  "PT",
+  # ruff
+  "RUF",
+  # flake8-bandit
+  "S",
+  # flake8-simplify
+  "SIM",
+  # flake8-type-checking
+  "TCH",
+  # pyupgrade
+  "UP",
+]
+
+[lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+parametrize-values-type = "tuple"
+
+[lint.flake8-type-checking]
+runtime-evaluated-base-classes = [
+  "django.db.models.Model",
+  "django.db.models.base.Model",
+  "django.forms.ModelForm",
+]
+runtime-evaluated-decorators = [
+  "django.contrib.admin.register",
+]
+strict = true
+
+[lint.isort]
+force-single-line = true
+known-third-party = ["django", "rest_framework"]
+
+[lint.per-file-ignores]
+"*/admin.py" = ["DJ01"]
+"*/migrations/*" = ["E501", "RUF012"]
+"*/settings.py" = ["E501"]
+"apps/*/models/**" = ["UP034"]
+"tests/**" = ["S101"]

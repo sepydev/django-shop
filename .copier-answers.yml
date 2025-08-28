@@ -1,0 +1,8 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v0.1.0
+_src_path: gh:sepydev/django-scaffold
+include_celery: true
+include_celery_beat: true
+include_redis: true
+project_name: django_shop
+timezone_warning: UTC

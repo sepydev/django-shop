@@ -1,0 +1,87 @@
+---
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16.9-bookworm
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  redis:
+    image: redis:8.2-bookworm
+    ports:
+      - "6379:6379"
+
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+      redis:
+        condition: service_started
+
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres@db:5432/app
+
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    command: celery -A config worker --loglevel=info
+    depends_on:
+      - db
+
+      - redis
+
+      - app
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres@db:5432/app
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    command: celery -A config beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on:
+      - db
+
+      - redis
+
+      - app
+
+      - celery
+
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres@db:5432/app
+    volumes:
+      - celery_beat_data:/app/celerybeat-schedule
+
+volumes:
+  postgres_data:
+
+  celery_beat_data:
