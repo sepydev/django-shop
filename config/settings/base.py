@@ -35,7 +35,10 @@ THIRD_PARTY_APPS: list[str] = [
     "django_celery_beat",  # For Celery Beat database scheduler
 ]
 
-LOCAL_APPS: list[str] = []
+LOCAL_APPS: list[str] = [
+    "accounts.apps.AccountsConfig",
+    "core.apps.CoreConfig",
+]
 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

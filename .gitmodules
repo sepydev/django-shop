@@ -1,2 +1,4 @@
-[submodule "apps.accounts"]
+[submodule "accounts"]
+	path = accounts
+	url = git@github.com:sepydev/django-accounts.git
 	branch = main

@@ -81,11 +81,11 @@ target-version = ['py311']
 django_settings_module = "config.settings.development"
 
 [tool.hatch.build]
-packages = ["apps", "config", "core"]
+packages = ["accounts", "config", "core"]
 
 [tool.isort]
 known_django = "django"
-known_first_party = ["apps", "config", "core"]
+known_first_party = ["accounts", "config", "core"]
 line-length = 120
 multi_line_output = 3
 profile = "black"
